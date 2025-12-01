@@ -1,45 +1,33 @@
-const form = document.getElementById("priceForm");
-const resultCard = document.getElementById("resultCard");
+const isBlacklisted = false;
+const age = 20;
+const hasPermitCard = true;
+const level = 3;   
 
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
+let message = "";
 
-    const userType = form.userType.value;
-    const amount = Number(document.getElementById("amount").value);
-    const hasCoupon = form.hasCoupon.value === "true";
 
-    if (isNaN(amount) || amount <= 0) {
-        alert("من فضلك أدخل مبلغًا صالحًا.");
-        return;
-    }
+if (isBlacklisted === true) {
+  message = "تم رفض الدخول: المستخدم محظور.";
+}
 
-    let discount = 0;
 
-    switch(userType) {
-        case "Guest":
-            discount = 0;
-            break;
-        case "Regular":
-            if (amount <= 500) discount = 5;
-            break;
-        case "Premium":
-            if (amount <= 500) discount = 10;
-            else if (amount <= 1000) discount = 15;
-            break;
-        default:
-            alert("نوع المستخدم غير معروف.");
-            return;
-    }
+else if (age < 18 || hasPermitCard === false) {
+  message = "تم رفض الدخول: الشروط الأساسية غير مكتملة.";
+}
 
-    if (hasCoupon) discount += 5;
 
-    const finalPrice = amount - (amount * discount / 100);
+else if (level >= 4) { 
+  message = "تم السماح بالدخول: صلاحية كاملة.";
+}
 
-    resultCard.style.display = "block";
-    resultCard.innerHTML = `
-        <h2>النتيجة</h2>
-        <p>المبلغ الأصلي: ${amount} ريال</p>
-        <p>نسبة الخصم: ${discount}%</p>
-        <p>السعر النهائي بعد الخصم: ${finalPrice.toFixed(2)} ريال</p>
-    `;
-});
+
+else if (level >= 2 && level <= 3) {   
+  message = "تم السماح بالدخول: صلاحية محدودة.";
+}
+
+
+else if (level === 1) { 
+  message = "تم السماح بالدخول: صلاحية زائر فقط.";
+}
+
+document.getElementById("result").textContent = message;
