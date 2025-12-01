@@ -1,36 +1,33 @@
-const scoreInput = document.getElementById("score");
-const attendanceInput = document.getElementById("attendance");
-const cheatingInput = document.getElementById("cheating");
-const resultDiv = document.getElementById("result");
+const isBlacklisted = false;
+const age = 20;
+const hasPermitCard = true;
+const level = 3;   
 
-document.getElementById("checkBtn").addEventListener("click", () => {
-    const score = Number(scoreInput.value);
-    const attendance = Number(attendanceInput.value);
-    const cheatingFlag = cheatingInput.value === "true";
+let message = "";
 
-   
-    if (cheatingFlag) {
-        resultDiv.textContent = "النتيجة: مستبعد بسبب الغش.";
-        return;
-    }
 
-    if (attendance < 60) {
-        resultDiv.textContent = "النتيجة: راسب بسبب انخفاض الحضور.";
-        return;
-    }
+if (isBlacklisted === true) {
+  message = "تم رفض الدخول: المستخدم محظور.";
+}
 
-    let grade ;
-    if (score >= 90) grade = "A";
-    else if (score >= 80) grade = "B";
-    else if (score >= 70) grade = "C";
-    else if (score >= 60) grade = "D";
-    else grade = "F";
 
-   let message =' الدرجة: ${grade}';
+else if (age < 18 || hasPermitCard === false) {
+  message = "تم رفض الدخول: الشروط الأساسية غير مكتملة.";
+}
 
-    if (score >= 70 && attendance >= 90) {
-        message += "\nالحالة: مؤهل للتميز الأكاديمي.";
-    }
 
-    resultDiv.textContent = message;
-});
+else if (level >= 4) { 
+  message = "تم السماح بالدخول: صلاحية كاملة.";
+}
+
+
+else if (level >= 2 && level <= 3) {   
+  message = "تم السماح بالدخول: صلاحية محدودة.";
+}
+
+
+else if (level === 1) { 
+  message = "تم السماح بالدخول: صلاحية زائر فقط.";
+}
+
+document.getElementById("result").textContent = message;
